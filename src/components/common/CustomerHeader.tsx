@@ -23,6 +23,11 @@ import DialogActions from '@mui/material/DialogActions';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Checkbox from '@mui/material/Checkbox';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import IconifyIcon from 'components/base/IconifyIcon';
 import Image from 'components/base/Image';
@@ -54,6 +59,9 @@ const NAV_ITEMS = [
 const CustomerHeader = () => {
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState<any | null>(null);
+
+  // State for mobile menu drawer
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // State for profile menu and dialog
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -276,10 +284,16 @@ const CustomerHeader = () => {
           px={{ xs: 2, md: 6 }}
           sx={{ height: '48px' }}
         >
-          {/* Left Section: Grid Icon & Logo */}
-          <Stack direction="row" alignItems="center" spacing={1.5}>
+          {/* Left Section: Menu Button & Logo */}
+          <Stack direction="row" alignItems="center" spacing={1}>
             <IconButton
-              href="/"
+              onClick={() => {
+                if (window.innerWidth < 1200) {
+                  setMobileMenuOpen(true);
+                } else {
+                  window.location.href = '/';
+                }
+              }}
               size="small"
               sx={{
                 p: 0.5,
@@ -288,7 +302,16 @@ const CustomerHeader = () => {
                 transition: 'color 0.2s ease-in-out'
               }}
             >
-              <IconifyIcon icon="material-symbols:apps" fontSize="18px" />
+              <IconifyIcon 
+                icon={mobileMenuOpen ? "material-symbols:close" : "material-symbols:menu"} 
+                fontSize="22px" 
+                sx={{ display: { xs: 'block', lg: 'none' } }} 
+              />
+              <IconifyIcon 
+                icon="material-symbols:apps" 
+                fontSize="18px" 
+                sx={{ display: { xs: 'none', lg: 'block' } }} 
+              />
             </IconButton>
 
             <Link
@@ -301,7 +324,7 @@ const CustomerHeader = () => {
                 transition: 'opacity 0.2s ease-in-out'
               }}
             >
-              <Image src={LogoImg} alt="logo" height={26} width={26} />
+              <Image src={LogoImg} alt="logo" height={36} width={36} />
             </Link>
           </Stack>
 
@@ -825,6 +848,64 @@ const CustomerHeader = () => {
           {submitSuccess}
         </Alert>
       </Snackbar>
+
+      {/* Mobile Drawer Menu */}
+      <Drawer
+        anchor="left"
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        PaperProps={{
+          sx: {
+            width: 250,
+            bgcolor: '#ffffff',
+            boxShadow: '4px 0px 30px rgba(0,0,0,0.08)',
+          }
+        }}
+      >
+        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Image src={LogoImg} alt="logo" height={30} width={30} />
+            <Typography variant="subtitle1" fontWeight={700} sx={{ fontFamily: '"SF Pro Display", -apple-system, sans-serif' }}>
+              HG PHONE
+            </Typography>
+          </Stack>
+          <IconButton onClick={() => setMobileMenuOpen(false)} size="small">
+            <IconifyIcon icon="material-symbols:close" fontSize="20px" />
+          </IconButton>
+        </Box>
+        <List sx={{ p: 1 }}>
+          {NAV_ITEMS.map((item) => {
+            const active = isActive(item);
+            return (
+              <ListItem key={item.name} disablePadding sx={{ mb: 0.5 }}>
+                <ListItemButton
+                  onClick={() => {
+                    handleNavClick(item.query);
+                    setMobileMenuOpen(false);
+                  }}
+                  sx={{
+                    borderRadius: 2,
+                    bgcolor: active ? 'rgba(0, 113, 227, 0.08)' : 'transparent',
+                    color: active ? '#0071e3' : 'rgba(0, 0, 0, 0.8)',
+                    '&:hover': {
+                      bgcolor: active ? 'rgba(0, 113, 227, 0.12)' : 'rgba(0, 0, 0, 0.04)',
+                    }
+                  }}
+                >
+                  <ListItemText 
+                    primary={item.name} 
+                    primaryTypographyProps={{
+                      fontSize: '14px',
+                      fontWeight: active ? 700 : 500,
+                      fontFamily: '"SF Pro Text", -apple-system, sans-serif'
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Drawer>
     </Stack>
   );
 };
