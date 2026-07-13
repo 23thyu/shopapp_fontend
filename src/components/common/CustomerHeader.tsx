@@ -286,31 +286,39 @@ const CustomerHeader = () => {
         >
           {/* Left Section: Menu Button & Logo */}
           <Stack direction="row" alignItems="center" spacing={1}>
+            {/* Mobile Menu Button - only visible on mobile */}
             <IconButton
-              onClick={() => {
-                if (window.innerWidth < 1200) {
-                  setMobileMenuOpen(true);
-                } else {
-                  window.location.href = '/';
-                }
-              }}
+              onClick={() => setMobileMenuOpen(true)}
               size="small"
               sx={{
                 p: 0.5,
                 color: 'rgba(0, 0, 0, 0.8)',
                 '&:hover': { color: '#000000' },
-                transition: 'color 0.2s ease-in-out'
+                transition: 'color 0.2s ease-in-out',
+                display: { xs: 'flex', lg: 'none' }
               }}
             >
               <IconifyIcon 
-                icon={mobileMenuOpen ? "material-symbols:close" : "material-symbols:menu"} 
+                icon="material-symbols:menu" 
                 fontSize="22px" 
-                sx={{ display: { xs: 'block', lg: 'none' } }} 
               />
+            </IconButton>
+
+            {/* Desktop Apps Button - only visible on desktop */}
+            <IconButton
+              href="/"
+              size="small"
+              sx={{
+                p: 0.5,
+                color: 'rgba(0, 0, 0, 0.8)',
+                '&:hover': { color: '#000000' },
+                transition: 'color 0.2s ease-in-out',
+                display: { xs: 'none', lg: 'flex' }
+              }}
+            >
               <IconifyIcon 
                 icon="material-symbols:apps" 
                 fontSize="18px" 
-                sx={{ display: { xs: 'none', lg: 'block' } }} 
               />
             </IconButton>
 
