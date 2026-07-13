@@ -123,7 +123,7 @@ const Signup = () => {
 
       <Stack component="form" mt={3} onSubmit={handleSubmit} direction="column" gap={2}>
         {/* Avatar selection & preview */}
-        <Stack alignItems="center" mb={1}>
+        <Stack direction="row" justifyContent="center" mb={1} width="100%">
           <Box sx={{ position: 'relative', cursor: 'pointer' }} component="label">
             <input
               type="file"
