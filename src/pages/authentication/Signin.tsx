@@ -12,6 +12,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Alert from '@mui/material/Alert';
 import IconifyIcon from 'components/base/IconifyIcon';
 import paths from 'routes/paths';
+import { API_BASE_URL } from 'services/api';
 
 interface User {
   [key: string]: string;
@@ -32,7 +33,7 @@ const Signin = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:3009/api/login-users', {
+      const response = await fetch(`${API_BASE_URL}/login-users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),

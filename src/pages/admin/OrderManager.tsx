@@ -18,6 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { API_BASE_URL } from 'services/api';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Alert from '@mui/material/Alert';
@@ -230,9 +231,9 @@ const OrderManager = () => {
                           component="img"
                           src={
                             detail.product_variant?.image
-                              ? (detail.product_variant.image.startsWith('http') ? detail.product_variant.image : `http://localhost:3009/api/images/${detail.product_variant.image}`)
+                              ? (detail.product_variant.image.startsWith('http') ? detail.product_variant.image : `${API_BASE_URL}/images/${detail.product_variant.image}`)
                               : detail.product?.image
-                              ? (detail.product.image.startsWith('http') ? detail.product.image : `http://localhost:3009/api/images/${detail.product.image}`)
+                              ? (detail.product.image.startsWith('http') ? detail.product.image : `${API_BASE_URL}/images/${detail.product.image}`)
                               : '/placeholder.png'
                           }
                           sx={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 1 }}

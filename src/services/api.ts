@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://shopapp-backend-spew.onrender.com/api';
+export const API_BASE_URL = 'https://shopapp-backend-spew.onrender.com/api';
 
 async function request(path: string, options: RequestInit = {}) {
   const token = localStorage.getItem('token');
